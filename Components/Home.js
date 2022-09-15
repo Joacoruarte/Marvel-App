@@ -3,25 +3,12 @@ import { Searchbar } from 'react-native-paper';
 import { FlatList, StyleSheet, Text, View , ActivityIndicator } from 'react-native'
 import { useGetCharacters } from '../hooks/useGetCharacters';
 import CharacterCard from './CharacterCard'
-import apiParams from '../config';
 
 export default function Home({ navigation }) {
   const [data, setData] = useState([]);
   const [search, setSearch] = useState('');
   const { loading , getCharacters} = useGetCharacters()
-  const { apikey , baseURL , hash , ts} = apiParams
-
-  const searchCharacter = async () => {
-    try{
-      if(search) {
-        let res = await fetch(`${baseURL}/v1/public/characters?ts=${ts}&apikey=${apikey}&hash=${hash}&nameStartsWith=${search}`)
-        let characters = await res.json()
-        return setData(characters.data.results)
-      }
-    }catch(err){
-      console.log(err)
-    }
-  }
+  const { searchCharacter} = useGetCharacters()
   
   useEffect(() => {
     getCharacters()
@@ -33,7 +20,13 @@ export default function Home({ navigation }) {
 
 
   useEffect(()=> {
-    if(search.length === 0){
+    if(search.length > 0){
+      searchCharacter(search)
+      .then(res => {  
+        setData(res)
+      })
+      .catch(err => console.log(err))
+    }else{
       getCharacters()
       .then(res => {  
         setData(res)

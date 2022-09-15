@@ -12,5 +12,12 @@ export const useGetCharacters = () => {
         return characters.data.results
     }
 
-    return { loading , getCharacters}
+    const searchCharacter = async (search) => {        
+        let res = await fetch(`${baseURL}/v1/public/characters?ts=${ts}&apikey=${apikey}&hash=${hash}&nameStartsWith=${search}`)
+        let characters = await res.json()
+        setLoading(false)
+        return characters.data.results
+    }
+
+    return { loading , getCharacters, searchCharacter}
 }
