@@ -19,5 +19,5 @@ export const useGetCharacters = () => {
         return characters.data.results
     }
 
-    return { loading , getCharacters, searchCharacter}
+    return { loading , getCharacters, searchCharacter }
 }

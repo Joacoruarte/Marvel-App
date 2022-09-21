@@ -6,8 +6,7 @@ const ts = Date.now();
 // Hash Md5
 const hash = md5(`${ts}${privateKey}${publicKey}`);
 
-
-const apiParams = {
+const apiParams = { 
   ts,
   apikey: publicKey,
   hash,
